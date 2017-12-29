@@ -38,14 +38,16 @@ class ViewController: UIViewController, UISearchBarDelegate {
                             print("Response: " + (responseObject as AnyObject).description)
                             if let photos = responseObject["photos"] as? [String: AnyObject] {
                                 if let photoArray = photos["photo"] as? [[String: AnyObject]] {
-                                    self.scrollView.contentSize = CGSize(width: 320, height: 320 * CGFloat(photoArray.count))
+                                    let imageWidth = self.view.frame.width
+                                    self.scrollView.contentSize = CGSize(width: imageWidth, height: imageWidth * CGFloat(photoArray.count))
                                     for (i,photoDictionary) in photoArray.enumerated() {
                                         if let imageURLString = photoDictionary["url_m"] as? String {
-                                            let imageView = UIImageView(frame: CGRect(x:0, y:320*CGFloat(i), width:320, height:320))     //#1
+                                            let imageView = UIImageView(frame: CGRect(x:0, y:320*CGFloat(i), width:imageWidth, height:imageWidth))
                                             if let url = URL(string: imageURLString) {
-                                                imageView.setImageWith(url)                                             //#2
+                                                imageView.setImageWith(url)
                                                 self.scrollView.addSubview(imageView)
                                             }
+                                            
                                         }
                                     }
                                 }
